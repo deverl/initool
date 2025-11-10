@@ -1,0 +1,11 @@
+.DS_Store
+initool.dSYM/
+initool
+Darwin_objn/
+Darwin_objd/
+build/
+/Debug/
+/.cproject
+/.project
+/DerivedData
+/.settings
