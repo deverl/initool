@@ -10,6 +10,7 @@ ifeq ($(PLATFORM),Darwin)
     BREW_HOME_DIR=`brew --prefix`
     CPP := $(shell /bin/ls -1 $(BREW_HOME_DIR)/bin/g++* | sed 's/@//g' | sed 's/^.*g++/g++/g')
     PATH := $(BREW_HOME_DIR)/bin:${PATH}
+    # Optionally, just set CPP := clang++
 else
     CPP := g++
 endif
