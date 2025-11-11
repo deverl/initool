@@ -16,7 +16,7 @@ else
 endif
 
 ifeq ($(PLATFORM),Linux)
-    CPP_FLAGS += -DLINUX -D_LINUX -D__LINUX__
+    CPP_FLAGS += -DLINUX -D_LINUX -D__LINUX__ -Wno-restrict
 endif
 
 
