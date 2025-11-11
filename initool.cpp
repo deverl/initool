@@ -125,6 +125,47 @@ public:
         write();
     }
 
+    void del(std::string_view section, std::string_view key) {
+        const std::string sec_lower = to_lower(section);
+        const std::string key_lower = to_lower(key);
+
+        auto              sec_it    = key_lines_.find(sec_lower);
+        if (sec_it == key_lines_.end()) {
+            throw std::runtime_error("Error: section not found");
+        }
+
+        auto key_it = sec_it->second.find(key_lower);
+        if (key_it == sec_it->second.end()) {
+            throw std::runtime_error("Error: key not found");
+        }
+
+        size_t line_no = key_it->second;
+
+        // Remove the line from the lines_ vector
+        lines_.erase(lines_.begin() + static_cast<long>(line_no));
+
+        // Remove key from data and key_lines maps
+        data_[sec_lower].erase(key_lower);
+        key_lines_[sec_lower].erase(key_lower);
+
+        // Adjust stored line numbers for keys below the deleted line
+        for (auto& [sec, keys] : key_lines_) {
+            for (auto& [k, lineno] : keys) {
+                if (lineno > line_no) {
+                    --lineno;
+                }
+            }
+        }
+
+        for (auto& [sec, lineno] : section_lines_) {
+            if (lineno > line_no) {
+                --lineno;
+            }
+        }
+
+        write();
+    }
+
 private:
     fs::path                                                                      path_;
     std::vector<std::string>                                                      lines_;
@@ -184,7 +225,8 @@ int main(int argc, char* argv[]) {
         if (argc < 2) {
             std::cerr << "Usage:\n"
                       << "  " << argv[0] << " --get <file> <section> <key>\n"
-                      << "  " << argv[0] << " --set <file> <section> <key> <value>\n";
+                      << "  " << argv[0] << " --set <file> <section> <key> <value>\n"
+                      << "  " << argv[0] << " --del <file> <section> <key>\n";
             return 1;
         }
 
@@ -204,7 +246,17 @@ int main(int argc, char* argv[]) {
             IniFile ini(argv[2]);
             ini.set(argv[3], argv[4], argv[5]);
             std::cout << "Updated [" << argv[3] << "] " << argv[4] << " = " << argv[5] << '\n';
-        } else {
+        } else if (command == "--del") {
+            if (argc != 5) {
+                std::cerr << "Usage: " << argv[0] << " --del <file> <section> <key>\n";
+                return 1;
+            }
+            IniFile ini(argv[2]);
+            ini.del(argv[3], argv[4]);
+            std::cout << "Deleted [" << argv[3] << "] " << argv[4] << '\n';
+        }
+
+        else {
             std::cerr << "Unknown command: " << command << '\n';
             return 1;
         }
