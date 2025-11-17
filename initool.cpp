@@ -224,21 +224,21 @@ int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
             std::cerr << "Usage:\n"
-                      << "  " << argv[0] << " --get <file> <section> <key>\n"
-                      << "  " << argv[0] << " --set <file> <section> <key> <value>\n"
-                      << "  " << argv[0] << " --del <file> <section> <key>\n";
+                      << "  " << argv[0] << " -g, --get <file> <section> <key>\n"
+                      << "  " << argv[0] << " -s, --set <file> <section> <key> <value>\n"
+                      << "  " << argv[0] << " -d, --del <file> <section> <key>\n";
             return 1;
         }
 
         std::string command = argv[1];
-        if (command == "--get") {
+        if (command == "--get" || command == "-g") {
             if (argc != 5) {
                 std::cerr << "Usage: " << argv[0] << " --get <file> <section> <key>\n";
                 return 1;
             }
             IniFile ini(argv[2]);
             std::cout << ini.get(argv[3], argv[4]) << '\n';
-        } else if (command == "--set") {
+        } else if (command == "--set" || command == "-s") {
             if (argc != 6) {
                 std::cerr << "Usage: " << argv[0] << " --set <file> <section> <key> <value>\n";
                 return 1;
@@ -246,7 +246,7 @@ int main(int argc, char* argv[]) {
             IniFile ini(argv[2]);
             ini.set(argv[3], argv[4], argv[5]);
             std::cout << "Updated [" << argv[3] << "] " << argv[4] << " = " << argv[5] << '\n';
-        } else if (command == "--del") {
+        } else if (command == "--del" || command == "-d") {
             if (argc != 5) {
                 std::cerr << "Usage: " << argv[0] << " --del <file> <section> <key>\n";
                 return 1;
