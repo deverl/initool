@@ -218,16 +218,27 @@ private:
     }
 };
 
+
+
+void usage(auto &os, char *argv[], bool terminate = true) {
+    std::cerr << "\nUsage:\n"
+              << "  " << argv[0] << " -g, --get <file> <section> <key>\n"
+              << "  " << argv[0] << " -s, --set <file> <section> <key> <value>\n"
+              << "  " << argv[0] << " -d, --del <file> <section> <key>\n\n";
+
+    if (terminate) {
+        exit(1);
+    }
+}
+
+
+
 // --- Main program ----------------------------------------------------------
 
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
-            std::cerr << "Usage:\n"
-                      << "  " << argv[0] << " -g, --get <file> <section> <key>\n"
-                      << "  " << argv[0] << " -s, --set <file> <section> <key> <value>\n"
-                      << "  " << argv[0] << " -d, --del <file> <section> <key>\n";
-            return 1;
+            usage(std::cerr, argv, true);
         }
 
         std::string command = argv[1];
