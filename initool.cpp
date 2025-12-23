@@ -220,15 +220,11 @@ private:
 
 
 
-void usage(auto &os, char *argv[], bool terminate = true) {
+void usage(auto &os, char *argv[]) {
     std::cerr << "\nUsage:\n"
               << "  " << argv[0] << " -g, --get <file> <section> <key>\n"
               << "  " << argv[0] << " -s, --set <file> <section> <key> <value>\n"
               << "  " << argv[0] << " -d, --del <file> <section> <key>\n\n";
-
-    if (terminate) {
-        exit(1);
-    }
 }
 
 
@@ -238,7 +234,8 @@ void usage(auto &os, char *argv[], bool terminate = true) {
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
-            usage(std::cerr, argv, true);
+            usage(std::cerr, argv);
+            return 1;
         }
 
         std::string command = argv[1];
