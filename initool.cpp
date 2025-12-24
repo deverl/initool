@@ -173,7 +173,7 @@ private:
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>>      key_lines_;
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> data_;
 
-    void                                                                          load() {
+    void load() {
         std::ifstream f(path_);
         if (!f) {
             throw std::runtime_error("Error: cannot open file " + path_.string());
@@ -245,7 +245,7 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             IniFile ini(argv[2]);
-            std::cout << ini.get(argv[3], argv[4]) << '\n';
+            std::cout << ini.get(argv[3], argv[4]);
         } else if (command == "--set" || command == "-s") {
             if (argc != 6) {
                 std::cerr << "Usage: " << argv[0] << " --set <file> <section> <key> <value>\n";
