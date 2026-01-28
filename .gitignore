@@ -4,6 +4,7 @@ initool
 Darwin_objn/
 Darwin_objd/
 build/
+build-debug/
 /Debug/
 /.cproject
 /.project

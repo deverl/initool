@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf build build-debug
+
+rm -f hd hd.o
