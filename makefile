@@ -7,10 +7,11 @@ INSTALL_TARGET=~/bin
 CPP_FLAGS = -c -Wall -pedantic --std=c++20 -DPLATFORM=$(PLATFORM)
 
 ifeq ($(PLATFORM),Darwin)
-    BREW_HOME_DIR=`brew --prefix`
-    CPP := $(shell /bin/ls -1 $(BREW_HOME_DIR)/bin/g++* | sed 's/@//g' | sed 's/^.*g++/g++/g')
-    PATH := $(BREW_HOME_DIR)/bin:${PATH}
+    # BREW_HOME_DIR=`brew --prefix`
+    # CPP := $(shell /bin/ls -1 $(BREW_HOME_DIR)/bin/g++* | sed 's/@//g' | sed 's/^.*g++/g++/g')
+    # PATH := $(BREW_HOME_DIR)/bin:${PATH}
     # Optionally, just set CPP := clang++
+    CPP := clang++
 else
     CPP := g++
 endif
@@ -64,7 +65,7 @@ $(OBJDIR)/%.d : %.cpp makefile
 
 
 clean:
-	rm -rf initool *.o initool.dSYM $(OBJDIR)
+	rm -rf initool *.o initool.dSYM $(OBJDIR) build build-debug
 
 
 test: $(OBJDIR)/initool

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm -rf build build-debug
+rm -rf build build-debug Darwin_objd Darwin_objn Linux_objd Linux_objn
 
-rm -f hd hd.o
+rm -f  *.o
