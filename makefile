@@ -30,9 +30,11 @@ else
 endif
 
 
-.DEFAULT : all
+.DEFAULT : all zig
 
 all : $(OBJDIR)/initool
+
+zig : initool_zig
 
 .PHONY : clean test install
 
@@ -65,7 +67,7 @@ $(OBJDIR)/%.d : %.cpp makefile
 
 
 clean:
-	rm -rf initool *.o initool.dSYM $(OBJDIR) build build-debug
+	rm -rf initool *.o initool.dSYM $(OBJDIR) build build-debug initool_zig
 
 
 test: $(OBJDIR)/initool
@@ -80,4 +82,6 @@ install: $(OBJDIR)/initool
 	cp $(OBJDIR)/initool $(INSTALL_TARGET)/
 
 
+initool_zig : makefile initool.zig
+	zig build-exe ./initool.zig -O ReleaseSmall -fstrip -femit-bin=./initool_zig
 
